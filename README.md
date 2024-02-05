@@ -1,2 +1,2 @@
-# H24-204-on-choisira-un-nom-plus-tard
+# H24-204-PyTranslate
 Projet d'intégration en sciences informatiques et mathématiques
