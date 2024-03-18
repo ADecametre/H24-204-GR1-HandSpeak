@@ -17,19 +17,14 @@ const objetParDefaut = {
 };
 
 export default function Camera() {
-	const videoRef = useRef<HTMLVideoElement | null>(null);
 	const webcamRef = useRef<Webcam>(null);
-	// const canvasRef = useRef<HTMLCanvasElement>(null);
+	const canvasRef = useRef<HTMLCanvasElement>(null);
 
 	const [resultat, setResultat] = useState(objetParDefaut);
+	const [isLoading, setIsLoading] = useState(true);
 
 	useEffect(() => {
-		if (webcamRef.current) {
-			videoRef.current = webcamRef.current.video;
-		}
-	}, [webcamRef]);
-
-	useEffect(() => {
+		if (isLoading) return;
 		let vision, gestureRecognizer: GestureRecognizer;
 		async function initialiser() {
 			vision = await FilesetResolver.forVisionTasks(
@@ -37,8 +32,7 @@ export default function Camera() {
 			);
 			gestureRecognizer = await GestureRecognizer.createFromOptions(vision, {
 				baseOptions: {
-					modelAssetPath:
-						"https://storage.googleapis.com/mediapipe-tasks/gesture_recognizer/gesture_recognizer.task",
+					modelAssetPath: `${process.cwd()}modeles/gesture_recognizer.task`,
 					delegate: "GPU",
 				},
 				runningMode: "VIDEO",
@@ -46,11 +40,11 @@ export default function Camera() {
 		}
 		initialiser().then(analyser);
 
+		const video = webcamRef.current!.video!;
 		let lastVideoTime = -1;
 		function analyser(): void {
-			const video = videoRef.current!;
 			if (video.currentTime !== lastVideoTime) {
-				const gestureRecognitionResult = gestureRecognizer?.recognizeForVideo(
+				const gestureRecognitionResult = gestureRecognizer.recognizeForVideo(
 					video,
 					Date.now()
 				);
@@ -62,39 +56,53 @@ export default function Camera() {
 			});
 		}
 
-		// const drawingUtils = new DrawingUtils(canvasRef.current!.getContext("2d"));
+		const canvas = canvasRef.current!;
+		const canvasCtx = canvas.getContext("2d")!;
+		const drawingUtils = new DrawingUtils(canvas.getContext("2d")!);
 		function afficherResultat(results: GestureRecognizerResult) {
-			/* for (const landmarks of results.landmarks) {
-                drawingUtils.drawConnectors(
-                    landmarks,
-                    GestureRecognizer.HAND_CONNECTIONS,
-                    {
-                        color: "#00FF00",
-                        lineWidth: 5,
-                    }
-                );
-                drawingUtils.drawLandmarks(landmarks, {
-                    color: "#FF0000",
-                    lineWidth: 2,
-                });
-            } */
 			if (results.gestures[0]) {
 				setResultat(results.gestures[0][0]);
 			} else {
 				setResultat(objetParDefaut);
 			}
+
+			canvas.width = video.videoWidth;
+			canvas.height = video.videoHeight;
+			canvasCtx.clearRect(0, 0, canvas.width, canvas.height);
+			for (const landmarks of results.landmarks) {
+				drawingUtils.drawConnectors(
+					landmarks,
+					GestureRecognizer.HAND_CONNECTIONS,
+					{
+						color: "#00FF00",
+						lineWidth: 5,
+					}
+				);
+				drawingUtils.drawLandmarks(landmarks, {
+					color: "#FF0000",
+					lineWidth: 2,
+				});
+			}
 		}
-	}, []);
+	}, [isLoading]);
 
 	return (
-		<div className="flex flex-col items-center">
+		<>
 			<p className="text-center text-xl p-2">
 				{resultat.categoryName}
 				<br />
 				{Math.round(resultat.score * 100)} %
 			</p>
-			<Webcam ref={webcamRef}className="object-center" />
-			{/* <canvas ref={canvasRef} /> */}
-		</div>
+			<div className="flex flex-col items-center">
+				<Webcam
+					ref={webcamRef}
+					className="object-center"
+					videoConstraints={{ facingMode: "user" }}
+					onLoadStart={() => setIsLoading(false)}
+				/>
+				{isLoading && <p className="text-xl">Chargement en cours 🫠</p>}
+				<canvas ref={canvasRef} className="absolute object-cover" />
+			</div>
+		</>
 	);
 }
