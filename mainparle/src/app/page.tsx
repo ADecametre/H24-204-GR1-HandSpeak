@@ -7,12 +7,19 @@
  */
 import BarreNavigation from "./composantes/BarreNavigation";
 import HeaderTitre from "./composantes/HeaderTitre";
+import { MantineProvider } from "@mantine/core";
 export default function Home() {
   return (
     <div>
       <BarreNavigation></BarreNavigation>
       <div>
+        <MantineProvider theme={
+          {
+           
+          }
+        }>
         <HeaderTitre titre = 'Apprenez le language des signes gratuitement avec SigneFacile! Communiquez sans barrières dès aujourd&apos;hui!'></HeaderTitre>
+        </MantineProvider>
       </div>
     </div>
   );

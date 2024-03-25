@@ -5,6 +5,7 @@
 import React from "react";
 //Composante exportée (On utilise un ul comme "classe mère", et des éléments de listes avec hyperliens qui vont mener à de futur pages):
 //PS: n'oubliez pas d'enlever les "bullet points" lors du Styling
+
 export default function BarreNavigation(){
     return(
         <div>
