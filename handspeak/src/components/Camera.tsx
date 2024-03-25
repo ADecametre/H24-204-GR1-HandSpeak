@@ -1,5 +1,6 @@
 "use client";
 
+import { Loader } from "@mantine/core";
 import {
 	Category,
 	DrawingUtils,
@@ -10,40 +11,41 @@ import {
 import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 import Webcam from "react-webcam";
 
-const modelePath: string = `${process.cwd()}modeles/gesture_recognizer.task`;
 const mediapipeWasmPath: string =
 	"https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@latest/wasm";
 
 type CameraProps = {
+	modelePath: string;
 	setResultat: Dispatch<SetStateAction<Category | undefined>>;
+	className?: string;
 };
 
 /**
- * Système de caméra qui détecte avec MediaPipe les gestes du modèle à travers la webcam.
- * 
- * Pour le faire fonctionner, fournir le *setter* d'un *state* qui stocke un `Category`.
- * 
- * Exemple :
+ * Système de caméra qui détecte avec MediaPipe les gestes d'un modèle à travers la webcam.
+ *
+ * @param {string} props.modelePath Path (chemin d'accès) du fichier `.task` du modèle d'IA
+ * @param {Dispatch<SetStateAction<any>>} props.setResultat Setter de State (`useState<Category>`) qui stocke le résultat de la reconnaissance de signe
+ * @param {string} [props.className] Classes CSS pour styliser le `<div>` du composant
+ *
+ * @example
  * ```ts
- * export default function TestCamera() {
  * 	const [resultat, setResultat] = useState<Category>();
- *		return (
- *			<>
- *				<p className="text-center text-xl p-2">
- *					{resultat?.categoryName}
- *					<br />
- *					{Math.round((resultat?.score || 0) * 100)} %
- *				</p>
- *				<Camera setResultat={setResultat} />
- *			</>
- *		);
- * }
-```
- * 
- * @param props.setResultat Setter de State (`useState<Category>`) qui stocke le résultat de la reconnaissance de signe
- * @returns
+ * 	return (
+ * 		<>
+ * 			{resultat?.categoryName} - {Math.round((resultat?.score || 0) * 100)} %
+ * 			<Camera
+ * 				modelePath={`${process.cwd()}modeles/gesture_recognizer.task`}
+ * 				setResultat={setResultat}
+ * 			/>
+ * 		</>
+ * 	);
+ * ```
  */
-export default function Camera({ setResultat }: CameraProps) {
+export default function Camera({
+	modelePath,
+	setResultat,
+	className,
+}: CameraProps) {
 	// Refs pour la webcam et le canvas (permettent d'accéder aux éléments HTML)
 	const webcamRef = useRef<Webcam>(null);
 	const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -74,7 +76,7 @@ export default function Camera({ setResultat }: CameraProps) {
 		initialiser().then(() => {
 			setIsModelePret(true);
 		});
-	}, []);
+	}, [modelePath]);
 
 	// Détection des gestes et traitement des résultats (exécuté quand la caméra et le modèle chargent)
 	useEffect(() => {
@@ -128,18 +130,43 @@ export default function Camera({ setResultat }: CameraProps) {
 		analyserWebcam();
 	}, [isCameraPrete, isModelePret, setResultat]);
 
-	// Webcam avec canvas qui la recouvre + messages de chargement
+	// Interface
 	return (
-		<div className="flex flex-col items-center">
+		<div className={`flex flex-col relative items-stretch ${className}`}>
+			{/* Webcam */}
 			<Webcam
 				ref={webcamRef}
-				className="object-center"
+				className="object-fill w-full h-full"
 				videoConstraints={{ facingMode: "user" }}
 				onLoadedDataCapture={() => setIsCameraPrete(true)}
 			/>
-			{!isCameraPrete && <p className="text-xl">Chargement de la caméra 🫠</p>}
-			{!isModelePret && <p className="text-xl">Chargement du modèle 🫠</p>}
-			<canvas ref={canvasRef} className="absolute object-cover" />
+			{/* Animation de chargement */}
+			<div
+				className={`flex flex-col items-center justify-center absolute w-full h-full text-center bg-blue-950/75 transition-opacity duration-500 ${
+					isCameraPrete && isModelePret && "opacity-0"
+				}`}
+			>
+				<Loader color="blue" size="xl" type="dots" />
+				<p
+					className={`text-3xl transition-opacity duration-300 ${
+						isCameraPrete && "opacity-0"
+					}`}
+				>
+					Chargement de la caméra…
+				</p>
+				<p
+					className={`text-3xl transition-opacity duration-300 ${
+						isModelePret && "opacity-0"
+					}`}
+				>
+					Chargement du modèle…
+				</p>
+			</div>
+			{/* Canvas pour le traçage des mains */}
+			<canvas
+				ref={canvasRef}
+				className={`absolute object-fill w-full h-full`}
+			/>
 		</div>
 	);
 }
