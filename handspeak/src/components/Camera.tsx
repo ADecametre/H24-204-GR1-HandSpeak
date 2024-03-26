@@ -6,6 +6,7 @@ import {
 	DrawingUtils,
 	FilesetResolver,
 	GestureRecognizer,
+	GestureRecognizerOptions,
 	GestureRecognizerResult,
 } from "@mediapipe/tasks-vision";
 import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
@@ -16,6 +17,7 @@ const mediapipeWasmPath: string =
 
 type CameraProps = {
 	modelePath: string;
+	options?: GestureRecognizerOptions;
 	setResultat: Dispatch<SetStateAction<Category | undefined>>;
 	className?: string;
 };
@@ -24,6 +26,7 @@ type CameraProps = {
  * Système de caméra qui détecte avec MediaPipe les gestes d'un modèle à travers la webcam.
  *
  * @param {string} props.modelePath Path (chemin d'accès) du fichier `.task` du modèle d'IA
+ * @param {GestureRecognizerOptions} props.options Options supplémentaires à fournir au détecteur pour le personnaliser (ex.: score minimum, liste de gestes)
  * @param {Dispatch<SetStateAction<any>>} props.setResultat Setter de State (`useState<Category>`) qui stocke le résultat de la reconnaissance de signe
  * @param {string} [props.className] Classes CSS pour styliser le `<div>` du composant
  *
@@ -43,6 +46,7 @@ type CameraProps = {
  */
 export default function Camera({
 	modelePath,
+	options,
 	setResultat,
 	className,
 }: CameraProps) {
@@ -56,6 +60,7 @@ export default function Camera({
 
 	// GestureRecognizer de MediaPipe
 	const detecteurDeGestes = useRef<GestureRecognizer>();
+	const animationFrame = useRef(0);
 
 	// Initialisation du détecteur de gestes (exécuté une seule fois)
 	useEffect(() => {
@@ -70,18 +75,29 @@ export default function Camera({
 						delegate: "GPU",
 					},
 					runningMode: "VIDEO",
+					...options,
 				}
 			);
 		}
 		initialiser().then(() => {
 			setIsModelePret(true);
 		});
-	}, [modelePath]);
+	}, [modelePath, options]);
 
 	// Détection des gestes et traitement des résultats (exécuté quand la caméra et le modèle chargent)
 	useEffect(() => {
+		const canvas = canvasRef.current!; // <canvas />
+		const canvasCtx = canvas.getContext("2d")!;
+
 		// Vérification que la webcam et le modèle sont prêts (ont fini de charger)
-		if (!isCameraPrete || !isModelePret) return;
+		if (!isCameraPrete || !isModelePret) {
+			if (animationFrame) {
+				cancelAnimationFrame(animationFrame.current!);
+				animationFrame.current = 0;
+				canvasCtx.clearRect(0, 0, canvas.width, canvas.height);
+			}
+			return;
+		}
 
 		const video = webcamRef.current!.video!; // <video />
 
@@ -94,15 +110,13 @@ export default function Camera({
 				lastVideoTime = video.currentTime;
 				afficherResultat(gestureRecognitionResult);
 			}
-			requestAnimationFrame(() => {
+			animationFrame.current = requestAnimationFrame(() => {
 				analyserWebcam();
 			});
 		}
 
 		// Traitement des résultats
-		const canvas = canvasRef.current!; // <canvas />
-		const canvasCtx = canvas?.getContext("2d")!;
-		const drawingUtils = new DrawingUtils(canvas?.getContext("2d")!);
+		const drawingUtils = new DrawingUtils(canvasCtx);
 		function afficherResultat(resultats: GestureRecognizerResult) {
 			// Renvoi du résultat au composant parent avec setResultat (qui vient du parent)
 			if (resultats.gestures[0]) {
