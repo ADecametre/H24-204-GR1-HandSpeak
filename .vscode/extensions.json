@@ -1,0 +1,19 @@
+{
+  "recommendations": [
+    "bradlc.vscode-tailwindcss",
+    "esbenp.prettier-vscode",
+    "ms-vsliveshare.vsliveshare",
+    "eamodio.gitlens",
+    "christian-kohler.path-intellisense",
+    "dbaeumer.vscode-eslint",
+    "bierner.markdown-preview-github-styles",
+    "yzhang.markdown-all-in-one",
+    "davidanson.vscode-markdownlint",
+    "cweijan.vscode-office",
+    "formulahendry.auto-rename-tag",
+    "dsznajder.es7-react-js-snippets",
+    "aaron-bond.better-comments",
+    "mattpocock.ts-error-translator",
+    "yuzu.snippets-next-13"
+  ]
+}
