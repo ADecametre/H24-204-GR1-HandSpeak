@@ -1,6 +1,12 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { ColorSchemeScript, MantineProvider, createTheme } from "@mantine/core";
+import {
+	ColorSchemeScript,
+	MantineProvider,
+	createTheme,
+	AppShell,
+	AppShellMain,
+} from "@mantine/core";
 import HeaderMenu from "@/components/HeaderMenu";
 
 export const metadata: Metadata = {
@@ -20,8 +26,10 @@ export default function RootLayout({
 			</head>
 			<body>
 				<MantineProvider theme={createTheme({})}>
-					<HeaderMenu></HeaderMenu>
-					{children}
+					<AppShell header={{ height: 75 }}>
+						<HeaderMenu />
+						<AppShellMain>{children}</AppShellMain>
+					</AppShell>
 				</MantineProvider>
 			</body>
 		</html>
