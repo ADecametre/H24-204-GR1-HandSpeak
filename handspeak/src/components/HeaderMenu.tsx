@@ -26,27 +26,26 @@ import {
 //Fonction de la composante exportée
 export default function Name() {
 	return (
-		<AppShellHeader className="sticky">
-			<Group justify="space-between" h="100%" ml="40" mr="40">
-				<Group>
-					<Image src="/Logo.png" width={85} height={85} alt="Logo HandSpeak" />
+		<AppShellHeader>
+			<Group justify="space-between" px={15} py={10}>
+				<Group gap="xs">
+					<Image src="/Logo.png" width={55} height={55} alt="Logo HandSpeak" />
 					<Text
 						size="xl"
 						fw={800}
 						variant="gradient"
 						gradient={{ from: "blue", to: "purple", deg: 90 }}
-						pb={10}
 					>
 						HANDSPEAK
 					</Text>
 				</Group>
 
-				<Group h="100%" gap={100} visibleFrom="sm">
+				<Group justify="space-between" w="30vw" visibleFrom="sm">
 					<Link href="/">Acceuil</Link>
 					<Link href="/cours">Cours</Link>
 					<Link href="">À Propos</Link>
 				</Group>
-				<Group visibleFrom="sm">
+				<Group gap="xs" visibleFrom="sm">
 					<Button variant="filled">Inscription</Button>
 					<Button variant="default">Connexion</Button>
 				</Group>
