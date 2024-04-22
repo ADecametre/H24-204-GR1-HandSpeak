@@ -22,9 +22,14 @@ import {
 	useMantineTheme,
 	AppShellHeader,
 	AppShellNavbar,
+	AppShellAside,
+	Flex,
+	Stack,
 } from "@mantine/core";
-//Fonction de la composante exportée
-export default function Name() {
+
+type HeaderMenuProps = { opened: boolean; toggle: () => void };
+
+export default function HeaderMenu({ opened, toggle }: HeaderMenuProps) {
 	return (
 		<AppShellHeader>
 			<Group justify="space-between" px={15} py={10}>
@@ -49,14 +54,19 @@ export default function Name() {
 					<Button variant="filled">Inscription</Button>
 					<Button variant="default">Connexion</Button>
 				</Group>
-				<Burger hiddenFrom="sm" />
-				<AppShellNavbar py="md" px={4}>
-					<UnstyledButton ml="20">Acceuil</UnstyledButton>
-					<UnstyledButton ml="20">Cours</UnstyledButton>
-					<UnstyledButton ml="20">À propos</UnstyledButton>
-					<Button variant="filled">Inscription</Button>
-					<Button variant="default">Connexion</Button>
-				</AppShellNavbar>
+				<Burger opened={opened} onClick={toggle} hiddenFrom="sm" size="sm" />
+				<AppShellAside py="md" px={4}>
+					<Stack justify="space-around" gap="xl" align="center">
+						<UnstyledButton>Acceuil</UnstyledButton>
+						<UnstyledButton>Cours</UnstyledButton>
+						<UnstyledButton>À propos</UnstyledButton>
+
+						<Group gap="lg" grow>
+							<Button variant="filled">Inscription</Button>
+							<Button variant="default">Connexion</Button>
+						</Group>
+					</Stack>
+				</AppShellAside>
 			</Group>
 		</AppShellHeader>
 	);
