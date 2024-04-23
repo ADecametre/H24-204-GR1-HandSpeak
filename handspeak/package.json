@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@clerk/nextjs": "^5.0.1",
     "@mantine/core": "^7.6.2",
     "@mediapipe/tasks-vision": "^0.10.12",
     "mongoose": "^8.3.2",
