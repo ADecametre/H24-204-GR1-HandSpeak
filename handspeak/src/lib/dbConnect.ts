@@ -3,6 +3,8 @@ declare global {
 	var mongoose: any; // This must be a `var` and not a `let / const`
 }
 
+mongoose.set("strictQuery", true);
+
 const databaseName = "sample_guides";
 const MONGODB_URI = `${process.env
 	.MONGODB_URI!}/${databaseName}?retryWrites=true&w=majority`;

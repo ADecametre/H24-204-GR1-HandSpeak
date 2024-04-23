@@ -1,5 +1,5 @@
 import dbConnect from "@/lib/dbConnect";
-import planet, { Planet } from "@/models/planet";
+import planet, { Planet } from "@/lib/models/planet";
 
 async function getPlanetes() {
 	"use server";
