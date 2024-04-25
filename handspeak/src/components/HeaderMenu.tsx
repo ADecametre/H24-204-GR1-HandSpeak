@@ -1,42 +1,50 @@
-//Imports de next
+"use client";
+
 import Image from "next/image";
+import icon from "../app/icon.png";
 import Link from "next/link";
-//imports de Mantine
+import type { LinkProps } from "next/link";
+import { usePathname } from "next/navigation";
+
 import {
-	HoverCard,
 	Group,
 	Button,
-	UnstyledButton,
 	Text,
-	SimpleGrid,
-	ThemeIcon,
-	Anchor,
-	Divider,
-	Center,
-	Box,
 	Burger,
-	Drawer,
-	Collapse,
-	ScrollArea,
-	rem,
-	useMantineTheme,
 	AppShellHeader,
-	AppShellNavbar,
 	AppShellAside,
-	Flex,
 	Stack,
+	NavLink,
 } from "@mantine/core";
+import type { NavLinkProps } from "@mantine/core";
+import type { useDisclosure } from "@mantine/hooks";
 
-type HeaderMenuProps = { opened: boolean; toggle: () => void };
+type HeaderMenuProps = {
+	disclosure: ReturnType<typeof useDisclosure>;
+};
 
-export default function HeaderMenu({ opened, toggle }: HeaderMenuProps) {
-	const liens = (
-		<>
-			<Link href="/">Acceuil</Link>
-			<Link href="/cours">Cours</Link>
-			<Link href="">À Propos</Link>
-		</>
-	);
+export default function HeaderMenu({
+	disclosure: [opened, handlers],
+}: HeaderMenuProps) {
+	const pathname = usePathname();
+	const liens: (NavLinkProps & LinkProps)[] = [
+		{ label: "Accueil", href: "/", active: pathname == "/" },
+		{ label: "Cours", href: "/cours", active: pathname.startsWith("/cours") },
+		{
+			label: "À propos",
+			href: "/a-propos",
+			active: pathname.startsWith("a-propos"),
+		},
+	];
+	const liensJSX = liens.map((lien) => (
+		<NavLink
+			key={lien.href.toString()}
+			component={Link}
+			onClick={handlers.close}
+			className="rounded-[--mantine-radius-default]"
+			{...lien}
+		/>
+	));
 	const boutons = (
 		<>
 			<Button variant="filled">Inscription</Button>
@@ -45,16 +53,11 @@ export default function HeaderMenu({ opened, toggle }: HeaderMenuProps) {
 	);
 
 	return (
-		<AppShellHeader>
-			<Group justify="space-between" px={15} py={10}>
-				<Link href="/">
+		<AppShellHeader h={75}>
+			<Group justify="space-between" px={15} py={10} gap={0} h="100%">
+				<Link href="/" onClick={handlers.close}>
 					<Group gap="xs" className="select-none">
-						<Image
-							src="/Logo.png"
-							width={55}
-							height={55}
-							alt="Logo HandSpeak"
-						/>
+						<Image src={icon} height={55} alt="Logo HandSpeak" />
 						<Text
 							size="xl"
 							fw={800}
@@ -66,16 +69,27 @@ export default function HeaderMenu({ opened, toggle }: HeaderMenuProps) {
 					</Group>
 				</Link>
 
-				<Group justify="space-between" w="30vw" visibleFrom="sm">
-					{liens}
+				<Group
+					justify="space-around"
+					miw="30vw"
+					visibleFrom="sm"
+					className="[&>*]:w-[initial]"
+					gap={0}
+				>
+					{liensJSX}
 				</Group>
-				<Group gap="xs" visibleFrom="sm">
+				<Group gap="2vw" visibleFrom="sm">
 					{boutons}
 				</Group>
-				<Burger opened={opened} onClick={toggle} hiddenFrom="sm" size="sm" />
-				<AppShellAside py="md" px={4}>
-					<Stack justify="space-around" gap="xl" align="center">
-						{liens}
+				<Burger
+					opened={opened}
+					onClick={handlers.toggle}
+					hiddenFrom="sm"
+					size="sm"
+				/>
+				<AppShellAside py="md" px="xl">
+					<Stack>
+						{liensJSX}
 						<Group gap="lg" grow>
 							{boutons}
 						</Group>
