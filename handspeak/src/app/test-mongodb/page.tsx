@@ -1,12 +1,8 @@
-import dbConnect from "@/lib/dbConnect";
-import planet, { Planet } from "@/lib/models/planet";
+import db from "@/lib/db";
 
 async function getPlanetes() {
 	"use server";
-	await dbConnect();
-
-	// await planet.create({ name: "Pluto" });
-	return await planet.find({}).sort("orderFromSun");
+	return await db.planets.findMany({ orderBy: { orderFromSun: "asc" } });
 }
 
 export const revalidate = 30; // Rafraîchir les données à chaque 30 secondes.
@@ -19,8 +15,8 @@ export default async function TestMongoDB() {
 		<main className="p-2">
 			<h1 className="text-center text-3xl p-2">Planètes</h1>
 			<div className="grid grid-cols-2">
-				{planetes.map((planete: Planet) => (
-					<div key={planete._id} className="border-2 p-2 rounded-lg">
+				{planetes.map((planete) => (
+					<div key={planete.id} className="border-2 p-2 rounded-lg">
 						<center className="text-center text-lg font-bold">
 							{planete.name}
 						</center>

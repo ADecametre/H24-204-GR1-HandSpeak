@@ -17,18 +17,15 @@ export default function RootLayout({
 	children: React.ReactNode;
 }>) {
 	return (
-		<ClerkProvider
-			signInFallbackRedirectUrl="/"
-			signUpForceRedirectUrl="/onboarding"
-		>
-			<html lang="en">
-				<head>
-					<ColorSchemeScript />
-				</head>
-				<body className={inter.className}>
-					<MantineProvider theme={createTheme({})}>{children}</MantineProvider>
-				</body>
-			</html>
-		</ClerkProvider>
+		// <ClerkProvider>
+		<html lang="en">
+			<head>
+				<ColorSchemeScript />
+			</head>
+			<body className={inter.className}>
+				<MantineProvider theme={createTheme({})}>{children}</MantineProvider>
+			</body>
+		</html>
+		// </ClerkProvider>
 	);
 }

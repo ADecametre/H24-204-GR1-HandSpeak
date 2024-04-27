@@ -15,6 +15,7 @@
     "aaron-bond.better-comments",
     "mattpocock.ts-error-translator",
     "yuzu.snippets-next-13",
-    "mongodb.mongodb-vscode"
+    "mongodb.mongodb-vscode",
+    "prisma.prisma"
   ]
 }
