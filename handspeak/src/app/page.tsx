@@ -1,7 +1,8 @@
 import { Button, Container, Group, Space, Text, Title } from "@mantine/core";
 
 import Image from "next/image";
-import IconAccueil from "../img/IconAccueil.png";
+import IconAccueil from "@/img/IconAccueil.png";
+import AnimationTitre from "@/components/AnimationTitre";
 
 export default function Home() {
 	return (
@@ -18,7 +19,7 @@ export default function Home() {
 				<Title textWrap="pretty">
 					DÉCOUVREZ LA LANGUE DES SIGNES GRATUITEMENT ET EFFICACEMENT AVEC{" "}
 					<Title component="span" c="blue">
-						HANDSPEAK
+						<AnimationTitre></AnimationTitre>
 					</Title>
 				</Title>
 				<Space h="xl" />
