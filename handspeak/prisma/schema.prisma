@@ -7,20 +7,9 @@ datasource db {
   url      = env("MONGODB_URI")
 }
 
-type PlanetsSurfaceTemperatureC {
-  /// Multiple data types found: Float: 33.3%, Int: 66.7% out of 8 sampled entries
-  max  Json?
-  /// Multiple data types found: Float: 37.5%, Int: 62.5% out of 8 sampled entries
-  mean Json
-  /// Multiple data types found: Float: 33.3%, Int: 66.7% out of 8 sampled entries
-  min  Json?
-}
+model users {
+  id      String @id @default(auto()) @map("_id") @db.ObjectId
+  clerkId String
 
-model planets {
-  id                  String                     @id @default(auto()) @map("_id") @db.ObjectId
-  hasRings            Boolean
-  mainAtmosphere      String[]
-  name                String
-  orderFromSun        Int
-  surfaceTemperatureC PlanetsSurfaceTemperatureC
+  @@unique([clerkId])
 }
