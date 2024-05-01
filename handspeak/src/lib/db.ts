@@ -1,7 +1,22 @@
-import { PrismaClient } from "@prisma/client";
+import { Prisma, PrismaClient } from "@prisma/client";
+import { currentUser } from "@clerk/nextjs/server";
 
 const prismaClientSingleton = () => {
-	return new PrismaClient();
+	return new PrismaClient().$extends({
+		model: {
+			users: {
+				async getCurrentUser() {
+					"use server";
+					const user = await currentUser();
+					if (!user) return null;
+					const context = Prisma.getExtensionContext(this);
+					return context.findUnique({
+						where: { clerkId: user.id },
+					});
+				},
+			},
+		},
+	});
 };
 
 declare global {
