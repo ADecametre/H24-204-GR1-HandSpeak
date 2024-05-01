@@ -15,9 +15,18 @@ import {
 	AppShellAside,
 	Stack,
 	NavLink,
+	Center,
 } from "@mantine/core";
 import type { NavLinkProps } from "@mantine/core";
 import type { useDisclosure } from "@mantine/hooks";
+import { ClerkProvider } from "@clerk/nextjs";
+import {
+	SignedIn,
+	SignedOut,
+	SignInButton,
+	SignUpButton,
+	UserButton,
+} from "@clerk/clerk-react";
 
 type HeaderMenuProps = {
 	disclosure: ReturnType<typeof useDisclosure>;
@@ -47,14 +56,30 @@ export default function HeaderMenu({
 	));
 	const boutons = (
 		<>
-			<Button variant="filled">Inscription</Button>
-			<Button variant="default">Connexion</Button>
+			<SignedOut>
+				<SignUpButton>
+					<Button variant="filled">Inscription</Button>
+				</SignUpButton>
+				<SignInButton>
+					<Button variant="default">Connexion</Button>
+				</SignInButton>
+			</SignedOut>
+			<SignedIn>
+				<Center>
+					<UserButton
+						appearance={{
+							elements: { userButtonAvatarBox: "h-[45px] w-[45px]" },
+						}}
+						showName
+					/>
+				</Center>
+			</SignedIn>
 		</>
 	);
 
 	return (
 		<AppShellHeader h={75}>
-			<Group justify="space-between" px={15} py={10} gap={0} h="100%">
+			<Group justify="space-between" px={15} py={10} gap={0} h="100%" miw={200}>
 				<Link href="/" onClick={handlers.close}>
 					<Group gap="xs" className="select-none">
 						<Image src={icon} height={55} alt="Logo HandSpeak" />
@@ -78,23 +103,25 @@ export default function HeaderMenu({
 				>
 					{liensJSX}
 				</Group>
-				<Group gap="2vw" visibleFrom="sm">
-					{boutons}
-				</Group>
 				<Burger
 					opened={opened}
 					onClick={handlers.toggle}
 					hiddenFrom="sm"
 					size="sm"
 				/>
-				<AppShellAside py="md" px="xl">
-					<Stack>
-						{liensJSX}
-						<Group gap="lg" grow>
-							{boutons}
-						</Group>
-					</Stack>
-				</AppShellAside>
+				<ClerkProvider>
+					<Group gap="2vw" visibleFrom="sm" justify="right" miw={200}>
+						{boutons}
+					</Group>
+					<AppShellAside py="md" px="xl">
+						<Stack>
+							{liensJSX}
+							<Group gap="lg" grow>
+								{boutons}
+							</Group>
+						</Stack>
+					</AppShellAside>
+				</ClerkProvider>
 			</Group>
 		</AppShellHeader>
 	);

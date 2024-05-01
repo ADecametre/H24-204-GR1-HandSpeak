@@ -1,9 +1,10 @@
-import { ClerkProvider, SignUp } from "@clerk/nextjs";
+import { SignUp } from "@clerk/nextjs";
+import { Center } from "@mantine/core";
 
 export default function Page() {
 	return (
-		<ClerkProvider>
-			<SignUp />
-		</ClerkProvider>
+		<Center>
+			<SignUp/>
+		</Center>
 	);
 }

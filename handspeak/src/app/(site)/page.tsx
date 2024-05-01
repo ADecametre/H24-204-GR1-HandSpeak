@@ -3,6 +3,7 @@ import { Button, Container, Group, Space, Text, Title } from "@mantine/core";
 import Image from "next/image";
 import IconAccueil from "@/img/IconAccueil.png";
 import AnimationTitre from "@/components/AnimationTitre";
+import Link from "next/link";
 
 export default function Home() {
 	return (
@@ -43,8 +44,15 @@ export default function Home() {
 				</Text>
 				<Space h="xl" />
 				<Group>
-					<Button radius="xl">Commencez ici</Button>
-					<Button radius="xl" variant="default">
+					<Button component={Link} href="/sign-up" radius="xl">
+						Commencez ici
+					</Button>
+					<Button
+						component={Link}
+						href="/sign-in"
+						radius="xl"
+						variant="default"
+					>
 						Compte existant?
 					</Button>
 				</Group>
