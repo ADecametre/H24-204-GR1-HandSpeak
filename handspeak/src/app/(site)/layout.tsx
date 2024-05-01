@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
-import "./globals.css";
+import "@/app/globals.css";
 import { ColorSchemeScript, MantineProvider, createTheme } from "@mantine/core";
-import AppShell from "../components/AppShell";
+import AppShell from "@/components/AppShell";
 
 export const metadata: Metadata = {
 	title: "HandSpeak",
