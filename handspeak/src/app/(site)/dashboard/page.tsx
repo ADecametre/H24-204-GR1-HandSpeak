@@ -1,11 +1,19 @@
 import db from "@/lib/db";
+import { Skeleton } from "@mantine/core";
+import { Suspense } from "react";
 
-export default async function Dashboard() {
+async function Info() {
 	const info = await db.users.getCurrentUser();
+	return <p>{JSON.stringify(info)}</p>;
+}
+
+export default function Dashboard() {
 	return (
 		<div>
 			<h1>Dashboard</h1>
-			<p>{JSON.stringify(info)}</p>
+			<Suspense fallback={<Skeleton height={20} width={700} radius="xl" />}>
+				<Info />
+			</Suspense>
 		</div>
 	);
 }
