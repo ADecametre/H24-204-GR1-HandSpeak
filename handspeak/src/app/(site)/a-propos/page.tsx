@@ -12,6 +12,7 @@ import {
 } from "@mantine/core";
 import IconAPropos from "@/img/Apropos.png";
 import Image from "next/image";
+import AnimationTitre from "@/components/AnimationTitre";
 const questions = [
 	{
 		emoji: "❓",
@@ -48,7 +49,10 @@ export default function APropos() {
 		>
 			<Container size="sm" m={0}>
 				<Title order={1} mb="xl">
-					À propos de <span style={{ color: "#007bff" }}>HandSpeak</span>
+					À PROPOS DE{" "}
+					<Title component="span" c="blue">
+						<AnimationTitre></AnimationTitre>
+					</Title>
 				</Title>
 				<Title order={2}> NOTRE MISSION </Title>
 				<Text pb={"sm"} mb="sm">
