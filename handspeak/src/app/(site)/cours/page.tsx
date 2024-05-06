@@ -1,10 +1,18 @@
 //IMPORTS DE MANTINE (ne pas oublier d'installer le package du carousel)
-import { Card, Container, DEFAULT_THEME, Title, Text } from "@mantine/core";
+import {
+	Card,
+	Container,
+	DEFAULT_THEME,
+	Title,
+	Text,
+	Group,
+} from "@mantine/core";
 import { Carousel, CarouselSlide } from "@mantine/carousel";
 import "@mantine/carousel/styles.css";
 import CarteCours, { data } from "@/components/CarteCours";
 import AnimationTitre from "@/components/AnimationTitre";
-import { IconSortAZ } from "@tabler/icons-react";
+import { IconAbc } from "@tabler/icons-react";
+import { IconNumber123 } from "@tabler/icons-react";
 
 export default function Home() {
 	//defini le contenu de chaque slide en utilisant les donnees des cartes (voir le data dans la composante CarteCours)
@@ -24,7 +32,7 @@ export default function Home() {
 				SELECTION DES COURS
 			</Title>
 			<Text pt={"md"} pl={"lg"} size="lg">
-				Donnez la parole à vos main avec{" "}
+				Donnez la parole à vos mains avec{" "}
 				<Text
 					size="md"
 					fw={750}
@@ -39,10 +47,10 @@ export default function Home() {
 				Accédez à notre vaste collection de cours sur cette page dès maintenant.
 				Bon apprentissage!
 			</Text>
-
-			<Title order={2} pl={"lg"} pt={"md"}>
-				L&apos;ALPHABET DANS LA LANGUE DES SIGNES
-			</Title>
+			<Group pl={"lg"} pt={"md"} gap="xs">
+				<IconAbc size="50px" color="#338DFF" />
+				<Title order={2}>L&apos;ALPHABET DANS LA LANGUE DES SIGNES</Title>
+			</Group>
 
 			<Carousel
 				slideSize={{ base: "100%", sm: "25%" }}
