@@ -15,18 +15,18 @@ import Image from "next/image";
 import AnimationTitre from "@/components/AnimationTitre";
 const questions = [
 	{
-		emoji: "❓",
-		value: "Est-ce que HandSpeak est gratuit?",
-		description: " Oui, HandSpeak est entierement gratuit ",
+		emoji: "💵",
+		value: "Est-ce que HandSpeak est gratuit ?",
+		description: "Oui, HandSpeak est entierement gratuit.",
 	},
 	{
-		emoji: "❓",
-		value: "À qui s'adresse HandSpeak",
+		emoji: "🧑‍💻",
+		value: "À qui s'adresse HandSpeak ?",
 		description:
-			"HandSpeak s'adresse à toute personne voulant apprendre le langage des signes américain (ASL)",
+			"HandSpeak s'adresse à toute personne voulant apprendre le langage des signes américain (ASL).",
 	},
 	{
-		emoji: "❓",
+		emoji: "✨",
 		value: "Quels sont les principaux avantages de HandSpeak ?",
 		description:
 			"HandSpeak propose une grande variété de ressources éducatives gratuites, y compris des leçons et des exercices interactifs, ce qui le rend accessible à tous les apprenants intéressés par l'ASL.",
