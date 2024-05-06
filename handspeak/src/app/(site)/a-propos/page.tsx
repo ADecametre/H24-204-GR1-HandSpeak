@@ -12,20 +12,21 @@ import {
 } from "@mantine/core";
 import IconAPropos from "@/img/Apropos.png";
 import Image from "next/image";
+import AnimationTitre from "@/components/AnimationTitre";
 const questions = [
 	{
-		emoji: "❓",
-		value: "Est-ce que HandSpeak est gratuit?",
-		description: " Oui, HandSpeak est entierement gratuit ",
+		emoji: "💵",
+		value: "Est-ce que HandSpeak est gratuit ?",
+		description: "Oui, HandSpeak est entierement gratuit.",
 	},
 	{
-		emoji: "❓",
-		value: "À qui s'adresse HandSpeak",
+		emoji: "🧑‍💻",
+		value: "À qui s'adresse HandSpeak ?",
 		description:
-			"HandSpeak s'adresse à toute personne voulant apprendre le langage des signes américain (ASL)",
+			"HandSpeak s'adresse à toute personne voulant apprendre le langage des signes américain (ASL).",
 	},
 	{
-		emoji: "❓",
+		emoji: "✨",
 		value: "Quels sont les principaux avantages de HandSpeak ?",
 		description:
 			"HandSpeak propose une grande variété de ressources éducatives gratuites, y compris des leçons et des exercices interactifs, ce qui le rend accessible à tous les apprenants intéressés par l'ASL.",
@@ -48,7 +49,10 @@ export default function APropos() {
 		>
 			<Container size="sm" m={0}>
 				<Title order={1} mb="xl">
-					À propos de <span style={{ color: "#007bff" }}>HandSpeak</span>
+					À PROPOS DE{" "}
+					<Title component="span" c="blue">
+						<AnimationTitre></AnimationTitre>
+					</Title>
 				</Title>
 				<Title order={2}> NOTRE MISSION </Title>
 				<Text pb={"sm"} mb="sm">
@@ -75,7 +79,7 @@ export default function APropos() {
 			</Container>
 			<Image
 				src={IconAPropos}
-				className="w-[30vw] rounded-full" // largeur de l'image = 30% de la largeur de la page
+				className="w-[30vw] rounded-xl" // largeur de l'image = 30% de la largeur de la page
 				alt="Globe"
 			/>
 		</Group>
