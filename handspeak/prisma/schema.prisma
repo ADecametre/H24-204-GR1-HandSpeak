@@ -7,9 +7,49 @@ datasource db {
   url      = env("MONGODB_URI")
 }
 
-model users {
-  id      String @id @default(auto()) @map("_id") @db.ObjectId
-  clerkId String
+type Lessons {
+  label        String
+  name         String
+  image        String?
+  instructions String?
+}
 
-  @@unique([clerkId])
+model progressions {
+  id          String  @id @default(auto()) @map("_id") @db.ObjectId
+  userId      String  @db.ObjectId
+  user        users   @relation(fields: [userId], references: [id])
+  courseId    String  @db.ObjectId
+  course      courses @relation(fields: [courseId], references: [id])
+  lessonsDone Int     @default(0)
+  grade       Float   @default(0)
+
+  @@unique([userId, courseId])
+}
+
+model categories {
+  id      String    @id @default(auto()) @map("_id") @db.ObjectId
+  order   Int?
+  name    String    @unique
+  courses courses[] @relation
+
+  @@index([order])
+}
+
+model courses {
+  id           String         @id @default(auto()) @map("_id") @db.ObjectId
+  order        Int?
+  name         String         @unique
+  url          String         @unique
+  categoryId   String         @db.ObjectId
+  category     categories     @relation(fields: [categoryId], references: [id])
+  lessons      Lessons[]
+  progressions progressions[]
+
+  @@index([order])
+}
+
+model users {
+  id           String         @id @default(auto()) @map("_id") @db.ObjectId
+  clerkId      String         @unique
+  progressions progressions[]
 }
