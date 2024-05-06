@@ -79,7 +79,7 @@ export default function APropos() {
 			</Container>
 			<Image
 				src={IconAPropos}
-				className="w-[30vw] rounded-full" // largeur de l'image = 30% de la largeur de la page
+				className="w-[30vw] rounded-xl" // largeur de l'image = 30% de la largeur de la page
 				alt="Globe"
 			/>
 		</Group>
