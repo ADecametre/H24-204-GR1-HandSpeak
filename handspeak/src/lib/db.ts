@@ -26,6 +26,7 @@ const prismaClientSingleton = () => {
 								include: {
 									progressions: {
 										include: { course: { include: { category: true } } },
+										orderBy: { course: { order: "asc" } },
 									},
 								},
 							});
@@ -45,20 +46,33 @@ const prismaClientSingleton = () => {
 						const user = await this.getUtilisateur();
 						const context = Prisma.getExtensionContext(this);
 
-						context.update({
+						return context.update({
 							where: {
 								id: user.id,
 							},
 							include: {
 								progressions: {
 									include: { course: { include: { category: true } } },
+									orderBy: { course: { order: "asc" } },
 								},
 							},
 							...("data" in args ? args : args(user.id)),
 						});
 					},
-					async enregistrerProgressionUtilisateur(
-						data: Omit<Prisma.progressionsCreateWithoutUserInput, "id">
+					/**
+					 * Met à jour la progression de l'utilisateur connecté sur un cours précis
+					 * @param data Objet contenant les données à enregistrer
+					 * @example
+					 * ```ts
+					 *	db.users.setProgressionUtilisateur({
+					 *		courseId: cours.id,
+					 *		grade: 0.99,
+					 *		lessonsDone: 7,
+					 *	});
+					 * ```
+					 */
+					async setProgressionUtilisateur(
+						data: Omit<Prisma.progressionsUncheckedCreateWithoutUserInput, "id">
 					) {
 						return this.updateUtilisateur((userId) => ({
 							data: {
@@ -67,7 +81,7 @@ const prismaClientSingleton = () => {
 										where: {
 											userId_courseId: {
 												userId: userId,
-												courseId: data.course.connect!.id!,
+												courseId: data.courseId,
 											},
 										},
 										update: data,
@@ -83,7 +97,42 @@ const prismaClientSingleton = () => {
 		.$extends({
 			model: {
 				categories: {
-					async getCategoriesCoursEtProgressionUtilisateur() {
+					/**
+					 * @returns Liste des catégories de cours, qui contiennent chacune une liste de cours, qui contiennent chacun la progression de l'utilisateur connecté
+					 * @example
+					 * ```ts
+					 * 	export default async function Cours() {
+					 *		const categories =
+					 *			await db.categories.getListeCours();
+					 *
+					 *		return (
+					 *			<>
+					 *				<Title order={1} mb="md">
+					 *					Liste des cours disponibles
+					 *				</Title>
+					 *				{categories.map((category) => (
+					 *					<section key={category.id}>
+					 *						<Title order={2}>{category.name}</Title>
+					 *						<Group>
+					 *							{category.courses.map((course) => (
+					 *								<Card key={course.id}>
+					 *									<Title order={3}>{course.name}</Title>
+					 *									<Text>
+					 *										{course.progressions[0]?.lessonsDone || 0}/
+					 *										{course.lessons.length}
+					 *									</Text>
+					 *									<Text>{course.progressions[0]?.grade * 100 || 0} %</Text>
+					 *								</Card>
+					 *							))}
+					 *						</Group>
+					 *					</section>
+					 *				))}
+					 *			</>
+					 *		);
+					 *	}
+					 * ```
+					 */
+					async getListeCours() {
 						const context = Prisma.getExtensionContext(this);
 						const user = await context.$parent.users.getUtilisateur();
 
@@ -93,12 +142,25 @@ const prismaClientSingleton = () => {
 									include: {
 										progressions: { where: { userId: user!.id } },
 									},
+									orderBy: { order: "asc" },
 								},
 							},
+							orderBy: { order: "asc" },
 						});
 					},
 				},
 				courses: {
+					/**
+					 * @param url URL param _(ex.: pour la page `/cours/lettres-a-f`, `"lettres-a-f"`)_
+					 * @returns Informations sur le cours, ainsi que sur la progression et la catégorie
+					 * @example
+					 * ```ts
+					 * const cours = await db.courses.getCoursParURL("lettres-a-f");
+					 * if (!cours) redirect("/cours");
+					 * const progression = cours.progressions[0],
+					 * 	categorie = cours.category;
+					 * ```
+					 */
 					async getCoursParURL(url: string) {
 						const context = Prisma.getExtensionContext(this);
 						const user = await context.$parent.users.getUtilisateur();
