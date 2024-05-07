@@ -1,3 +1,5 @@
+// Voir schéma : https://lucid.app/documents/embedded/7963b9fe-0ae4-4a83-9496-b83c8d82708d
+
 generator client {
   provider = "prisma-client-js"
 }
@@ -20,29 +22,30 @@ model progressions {
   user        users   @relation(fields: [userId], references: [id])
   courseId    String  @db.ObjectId
   course      courses @relation(fields: [courseId], references: [id])
-  lessonsDone Int     @default(0)
-  grade       Float   @default(0)
+  lessonsDone Int     @default(0) // Nombres de lessons terminées dans le cours
+  grade       Float   @default(0) // Résultat obtenu lors de l'évaluation (entre 0 et 1)
 
   @@unique([userId, courseId])
 }
 
 model categories {
   id      String    @id @default(auto()) @map("_id") @db.ObjectId
-  order   Int?
-  name    String    @unique
+  order   Int? // Ordre dans lequel la catégorie s'affiche dans la liste des catégories (ex.: 1)
+  name    String    @unique // Nom de la catégorie (ex.: "Alphabet")
   courses courses[] @relation
+  icon    String? // Classe CSS qui provient de tabler.io/icons (ex.: "ti ti-abc")
 
   @@index([order])
 }
 
 model courses {
   id           String         @id @default(auto()) @map("_id") @db.ObjectId
-  order        Int?
-  name         String         @unique
-  url          String         @unique
+  order        Int? // Ordre dans lequel le cours s'affiche dans la liste de cours (ex.: 2)
+  name         String         @unique // Nom du cours (ex.: "Lettres A à F")
+  url          String         @unique // URL pour accéder au cours (ex.: "lettres-a-f")
   categoryId   String         @db.ObjectId
   category     categories     @relation(fields: [categoryId], references: [id])
-  lessons      Lessons[]
+  lessons      Lessons[] // Liste des signes à apprendre avec tous les détails nécessaires (ex.: [ {name:"A", label:"A", image:"https://yes", instructions:"Ouvrez la main"}, ])
   progressions progressions[]
 
   @@index([order])

@@ -3,7 +3,7 @@ import { Skeleton } from "@mantine/core";
 import { Suspense } from "react";
 
 async function Info() {
-	const info = await db.users.getCurrentUser();
+	const info = await db.users.getUtilisateur();
 	return <p>{JSON.stringify(info)}</p>;
 }
 
