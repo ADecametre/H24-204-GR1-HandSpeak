@@ -1,7 +1,9 @@
 "use client";
 
 import { IconCheck } from "@tabler/icons-react";
-import { useState } from "react";
+import { useState, useMemo } from "react";
+import { Category, GestureRecognizerOptions } from "@mediapipe/tasks-vision";
+import Camera from "@/components/Camera";
 import {
 	Box,
 	Flex,
@@ -23,6 +25,19 @@ export default function Demo() {
 	const lessons = ["A", "B", "C", "D", "E", "F"];
 	const [completedLessons, setCompletedLessons] = useState<string[]>([]);
 
+	const [resultat, setResultat] = useState<Category>();
+
+	const options: GestureRecognizerOptions = useMemo(
+		() => ({
+			minHandDetectionConfidence: 0.9,
+			cannedGesturesClassifierOptions: {
+				scoreThreshold: 0.8,
+				categoryDenylist: ["Thumb_Down"],
+			},
+		}),
+		[]
+	);
+
 	const nextStep = () => {
 		setActive((current) =>
 			current < lessons.length - 1 ? current + 1 : current
@@ -37,7 +52,6 @@ export default function Demo() {
 				justify="center"
 				//align="center"
 				wrap="nowrap"
-				// N'utilise pas style. Avec Tailwind, tu peux faire className="h-[100vh]"
 			>
 				<Box pr="5rem">
 					<Timeline
@@ -50,13 +64,15 @@ export default function Demo() {
 					>
 						{lessons.map((lesson, index) => (
 							<Timeline.Item
-							// TODO: Remplace Timeline.I
 								key={index}
 								bullet={
 									completedLessons.includes(lesson) && <IconCheck size={12} />
 								}
-								title={<div style={{ paddingTop: "2px" }}>Leçon {lesson}</div>}
-								// TODO: Pourquoi est-ce que t'as utilisé un div pour du texte ? Utilise Text ou Title de Mantine
+								title={
+									<Text size="md" fw={500}>
+										Leçon {lesson}
+									</Text>
+								}
 							></Timeline.Item>
 						))}
 					</Timeline>
@@ -74,6 +90,26 @@ export default function Demo() {
 						<Text size="xl" c={"blue"} fw={1000}>
 							Leçon {lessons[active]}
 						</Text>
+						<Flex
+							mih={50}
+							gap="xs"
+							justify="center"
+							align="center"
+							direction="column"
+							wrap="wrap"
+						>
+							<Camera
+								options={options}
+								modelePath={`${process.cwd()}modeles/gesture_recognizer.task`}
+								setResultat={setResultat}
+								className="min-w-[60dvw] min-h-[45dvw] border-2 border-blue-100"
+							/>
+							<Text ta="center" size="lg" fw={800}>
+								{resultat?.categoryName}
+								<br />
+								{Math.round((resultat?.score || 0) * 100)} %
+							</Text>
+						</Flex>
 						<Flex
 							gap="xs"
 							justify="center"
