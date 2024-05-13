@@ -4,6 +4,8 @@ import { IconCheck } from "@tabler/icons-react";
 import { useState, useMemo } from "react";
 import { Category, GestureRecognizerOptions } from "@mediapipe/tasks-vision";
 import Camera from "@/components/Camera";
+import Main3D from "@/components/Main3D";
+
 import {
 	Box,
 	Flex,
@@ -102,7 +104,7 @@ export default function Demo() {
 								options={options}
 								modelePath={`${process.cwd()}modeles/gesture_recognizer.task`}
 								setResultat={setResultat}
-								className="min-w-[60dvw] min-h-[45dvw] border-2 border-blue-100"
+								className="w-[20dvw] h-[15dvw] border-2 border-blue-100"
 							/>
 							<Text ta="center" size="lg" fw={800}>
 								{resultat?.categoryName}
@@ -125,6 +127,7 @@ export default function Demo() {
 						</Flex>
 					</Flex>
 				</Container>
+				<Main3D letter = {lessons[active]}/>
 			</Flex>
 		</Container>
 	);
