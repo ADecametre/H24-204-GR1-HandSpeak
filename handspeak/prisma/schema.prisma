@@ -12,7 +12,7 @@ datasource db {
 type Lessons {
   label        String
   name         String
-  image        String?
+  model3d      String? // URL du modèle 3D de la main (ex.: "model3d/a.gltf")
   instructions String?
 }
 
@@ -42,6 +42,8 @@ model courses {
   id           String         @id @default(auto()) @map("_id") @db.ObjectId
   order        Int? // Ordre dans lequel le cours s'affiche dans la liste de cours (ex.: 2)
   name         String         @unique // Nom du cours (ex.: "Lettres A à F")
+  description  String // Description du cours
+  model        String // URL du modèle d'IA (ex.: "modeles/lettres.task")
   url          String         @unique // URL pour accéder au cours (ex.: "lettres-a-f")
   categoryId   String         @db.ObjectId
   category     categories     @relation(fields: [categoryId], references: [id])
