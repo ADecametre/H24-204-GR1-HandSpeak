@@ -9,17 +9,12 @@ import Main3D from "@/components/Main3D";
 import {
 	Box,
 	Flex,
-	Stepper,
 	Timeline,
 	TimelineItem,
 	Title,
 	Text,
-	Group,
 	Button,
-	Image,
-	Center,
 	Container,
-	rem,
 } from "@mantine/core";
 
 export default function Demo() {
@@ -48,86 +43,59 @@ export default function Demo() {
 	};
 	const prevStep = () =>
 		setActive((current) => (current > 0 ? current - 1 : current));
+
 	return (
 		<Container>
-			<Flex
-				justify="center"
-				//align="center"
-				wrap="nowrap"
-			>
-				<Box pr="5rem">
-					<Timeline
-						active={active}
-						bulletSize={24}
-						lineWidth={2}
-						style={{
-							transition: "all 1.5s",
-						}}
-					>
+			<Flex justify="space-between" align="flex-start">
+				<Box className="w-1/5 mr-4">
+					<Timeline active={active} bulletSize={24} lineWidth={2}>
 						{lessons.map((lesson, index) => (
 							<Timeline.Item
 								key={index}
 								bullet={
-									completedLessons.includes(lesson) && <IconCheck size={12} />
+									completedLessons.includes(lesson) ? (
+										<IconCheck size={12} />
+									) : undefined
 								}
 								title={
 									<Text size="md" fw={500}>
 										Leçon {lesson}
 									</Text>
 								}
-							></Timeline.Item>
+							/>
 						))}
 					</Timeline>
 				</Box>
-				<Container fluid>
-					<Flex
-						justify="center"
-						align="center"
-						direction="column"
-						wrap="nowrap"
-					>
+				<Box className="flex-grow flex flex-col justify-between items-center h-[calc(100vh-75px)]">
+					<Flex direction="column" align="center" className="flex-grow">
 						<Title c={"blue"} fw={1000}>
 							Cours A-F
 						</Title>
 						<Text size="xl" c={"blue"} fw={1000}>
 							Leçon {lessons[active]}
 						</Text>
-						<Flex
-							mih={50}
-							gap="xs"
-							justify="center"
-							align="center"
-							direction="column"
-							wrap="wrap"
-						>
-							<Camera
-								options={options}
-								modelePath={`${process.cwd()}modeles/gesture_recognizer.task`}
-								setResultat={setResultat}
-								className="w-[20dvw] h-[15dvw] border-2 border-blue-100"
-							/>
-							<Text ta="center" size="lg" fw={800}>
-								{resultat?.categoryName}
-								<br />
-								{Math.round((resultat?.score || 0) * 100)} %
-							</Text>
-						</Flex>
-						<Flex
-							gap="xs"
-							justify="center"
-							align="center"
-							direction="row"
-							wrap="wrap"
-							mt="xl"
-						>
+						<Main3D letter={lessons[active]} />
+						<Flex gap="xs" justify="center" className="w-full px-4 pb-4 pt-4">
 							<Button variant="default" onClick={prevStep}>
 								Retour
 							</Button>
 							<Button onClick={nextStep}>Prochaine leçon</Button>
 						</Flex>
 					</Flex>
-				</Container>
-				<Main3D letter = {lessons[active]}/>
+				</Box>
+				<Box className="w-3/10 ml-4">
+					<Camera
+						options={options}
+						modelePath={`${process.cwd()}modeles/gesture_recognizer.task`}
+						setResultat={setResultat}
+						className="w-[20dvw] h-[15dvw]"
+					/>
+					<Text ta="center" size="lg" fw={800}>
+						{resultat?.categoryName}
+						<br />
+						{Math.round((resultat?.score || 0) * 100)} %
+					</Text>
+				</Box>
 			</Flex>
 		</Container>
 	);
