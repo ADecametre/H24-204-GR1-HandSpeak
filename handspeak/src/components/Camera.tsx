@@ -1,6 +1,6 @@
 "use client";
 
-import { Loader } from "@mantine/core";
+import { Loader, Text, Stack } from "@mantine/core";
 import {
 	Category,
 	DrawingUtils,
@@ -155,27 +155,31 @@ export default function Camera({
 				onLoadedDataCapture={() => setIsCameraPrete(true)}
 			/>
 			{/* Animation de chargement */}
-			<div
-				className={`flex flex-col items-center justify-center absolute w-full h-full text-center bg-blue-950/75 transition-opacity duration-500 ${
+			<Stack
+				className={`items-center justify-center absolute w-full h-full text-center bg-blue-950/75 transition-opacity duration-500 ${
 					isCameraPrete && isModelePret && "opacity-0"
 				}`}
 			>
 				<Loader color="blue" size="xl" type="dots" />
-				<p
-					className={`text-3xl transition-opacity duration-300 ${
+				<Text
+					color="blue"
+					fw={700}
+					className={`transition-opacity duration-300 ${
 						isCameraPrete && "opacity-0"
 					}`}
 				>
 					Chargement de la caméra…
-				</p>
-				<p
-					className={`text-3xl transition-opacity duration-300 ${
+				</Text>
+				<Text
+					color="blue"
+					fw={700}
+					className={`transition-opacity duration-300 ${
 						isModelePret && "opacity-0"
 					}`}
 				>
 					Chargement du modèle…
-				</p>
-			</div>
+				</Text>
+			</Stack>
 			{/* Canvas pour le traçage des mains */}
 			<canvas
 				ref={canvasRef}
