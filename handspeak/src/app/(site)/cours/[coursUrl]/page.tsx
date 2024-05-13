@@ -74,7 +74,7 @@ export default function Demo() {
 						<Text size="xl" c={"blue"} fw={1000}>
 							Leçon {lessons[active]}
 						</Text>
-						<Main3D letter={lessons[active]} />
+						<Main3D letter={lessons[active].toLowerCase()} />
 						<Flex gap="xs" justify="center" className="w-full px-4 pb-4 pt-4">
 							<Button variant="default" onClick={prevStep}>
 								Retour
