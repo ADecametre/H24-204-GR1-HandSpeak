@@ -16,7 +16,7 @@ export default function Home() {
 				"https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/images/bg-1.png",
 			altImage: "ImageCarte",
 			titre: "Lettres A-F",
-			description: "Lettres A à M - Leçons et Quiz",
+			description: "Lettres A à F - Leçons et Quiz",
 			categorie: "Alphabet",
 		},
 		{
