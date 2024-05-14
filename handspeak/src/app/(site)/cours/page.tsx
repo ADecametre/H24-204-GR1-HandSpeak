@@ -84,11 +84,7 @@ export default function Home() {
 
 	return (
 		<Box className="bg-gray-100">
-			<Title c={"blue"} ml={"md"} pt={"md"}>
-				<AnimationTitre></AnimationTitre>
-			</Title>
-
-			<Group gap={"xs"} ml={"md"} mr={"md"}>
+			<Group gap={"xs"} ml={"md"} mr={"md"} pt={"md"}>
 				<Title>SELECTION DES COURS</Title>
 				<Box visibleFrom="sm">
 					<IconBooks size={"45px"} />
@@ -104,24 +100,24 @@ export default function Home() {
 			</Text>
 			<Group pl={"lg"} pt={"md"} gap="xs">
 				<IconAbc size="50px" color="#338DFF" />
-				<Title order={2}>L&apos;ALPHABET DANS LA LANGUE DES SIGNES</Title>
+				<Title order={2}>DÉCOUVREZ L&apos;ALPHABET</Title>
 			</Group>
 
 			<Carousel
-				slideSize={{ base: "100%", sm: "25%" }}
+				slideSize={{ base: "90%", sm: "24%" }}
 				slideGap={{ base: "xl", sm: 2 }}
 				align="start"
+				p={"lg"}
 				withControls={false}
-				ml={"sm"}
 			>
 				{cartesAlphabet}
 			</Carousel>
 			<Group pl={"lg"} pt={"md"} gap="xs">
 				<IconNumber123 size="50px" color="#338DFF" />
-				<Title order={2}>LES CHIFFRES DANS LA LANGUE DES SIGNES</Title>
+				<Title order={2}>APPRENEZ LES CHIFFRES</Title>
 			</Group>
 			<Carousel
-				slideSize={{ base: "100%", sm: "25%" }}
+				slideSize={{ base: "90%", sm: "24%" }}
 				slideGap={{ base: "xl", sm: 2 }}
 				align="start"
 				p={"lg"}
