@@ -13,7 +13,7 @@ export default function Home() {
 	const donneesAlphabet = [
 		{
 			image:
-				"https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/images/bg-8.png",
+				"https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/images/bg-1.png",
 			altImage: "ImageCarte",
 			titre: "Lettres A-F",
 			description: "Lettres A à M - Leçons et Quiz",
@@ -21,7 +21,7 @@ export default function Home() {
 		},
 		{
 			image:
-				"https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/images/bg-3.png",
+				"https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/images/bg-2.png",
 			titre: "Lettres G-L",
 			categorie: "Alphabet",
 			description: "Lettres G à L - Leçons et Quiz",
@@ -29,7 +29,7 @@ export default function Home() {
 		},
 		{
 			image:
-				"https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/images/bg-8.png",
+				"https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/images/bg-3.png",
 			altImage: "ImageCarte",
 			titre: "Lettres M-T",
 			description: "Lettres M à T - Leçons et Quiz",
@@ -37,7 +37,7 @@ export default function Home() {
 		},
 		{
 			image:
-				"https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/images/bg-8.png",
+				"https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/images/bg-4.png",
 			altImage: "ImageCarte",
 			titre: "Lettres U-Z",
 			description: "Lettres U à Z - Leçons et Quiz",
@@ -47,7 +47,7 @@ export default function Home() {
 	const donneesNumeros = [
 		{
 			image:
-				"https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/images/bg-8.png",
+				"https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/images/bg-9.png",
 			altImage: "ImageCarte",
 			titre: "Chiffres 0-3",
 			description: "Chiffres allant de 0 à 3 - Leçons et Quiz",
@@ -55,7 +55,7 @@ export default function Home() {
 		},
 		{
 			image:
-				"https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/images/bg-3.png",
+				"https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/images/bg-10.png",
 			titre: "Chiffres 4-6",
 			categorie: "Chiffres",
 			description: "Chiffres allant de 4 à 6 - Leçons et Quiz",
