@@ -7,7 +7,7 @@
 		"build": "next build",
 		"start": "next start",
 		"lint": "next lint",
-		"prisma": "dotenv -e .env.local -- npx prisma",
+		"prisma": "dotenv -e .env.local -- prisma",
 		"postinstall": "prisma generate"
 	},
 	"dependencies": {

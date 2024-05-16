@@ -1,3 +1,5 @@
+// Voir schéma : https://lucid.app/documents/embedded/7963b9fe-0ae4-4a83-9496-b83c8d82708d
+
 generator client {
   provider = "prisma-client-js"
 }
@@ -7,9 +9,52 @@ datasource db {
   url      = env("MONGODB_URI")
 }
 
-model users {
-  id      String @id @default(auto()) @map("_id") @db.ObjectId
-  clerkId String
+type Lessons {
+  label        String
+  name         String
+  model3d      String? // URL du modèle 3D de la main (ex.: "model3d/a.gltf")
+  instructions String?
+}
 
-  @@unique([clerkId])
+model progressions {
+  id          String  @id @default(auto()) @map("_id") @db.ObjectId
+  userId      String  @db.ObjectId
+  user        users   @relation(fields: [userId], references: [id])
+  courseId    String  @db.ObjectId
+  course      courses @relation(fields: [courseId], references: [id])
+  lessonsDone Int     @default(0) // Nombres de lessons terminées dans le cours
+  grade       Float   @default(0) // Résultat obtenu lors de l'évaluation (entre 0 et 1)
+
+  @@unique([userId, courseId])
+}
+
+model categories {
+  id      String    @id @default(auto()) @map("_id") @db.ObjectId
+  order   Int? // Ordre dans lequel la catégorie s'affiche dans la liste des catégories (ex.: 1)
+  name    String    @unique // Nom de la catégorie (ex.: "Alphabet")
+  courses courses[] @relation
+  icon    String? // Classe CSS qui provient de tabler.io/icons (ex.: "ti ti-abc")
+
+  @@index([order])
+}
+
+model courses {
+  id           String         @id @default(auto()) @map("_id") @db.ObjectId
+  order        Int? // Ordre dans lequel le cours s'affiche dans la liste de cours (ex.: 2)
+  name         String         @unique // Nom du cours (ex.: "Lettres A à F")
+  description  String // Description du cours
+  model        String // URL du modèle d'IA (ex.: "modeles/lettres.task")
+  url          String         @unique // URL pour accéder au cours (ex.: "lettres-a-f")
+  categoryId   String         @db.ObjectId
+  category     categories     @relation(fields: [categoryId], references: [id])
+  lessons      Lessons[] // Liste des signes à apprendre avec tous les détails nécessaires (ex.: [ {name:"A", label:"A", image:"https://yes", instructions:"Ouvrez la main"}, ])
+  progressions progressions[]
+
+  @@index([order])
+}
+
+model users {
+  id           String         @id @default(auto()) @map("_id") @db.ObjectId
+  clerkId      String         @unique
+  progressions progressions[]
 }
