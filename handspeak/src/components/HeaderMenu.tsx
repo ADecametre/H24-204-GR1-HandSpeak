@@ -42,7 +42,7 @@ export default function HeaderMenu({
 		{
 			label: "À propos",
 			href: "/a-propos",
-			active: pathname.startsWith("a-propos"),
+			active: pathname.startsWith("/a-propos"),
 		},
 	];
 	const liensJSX = liens.map((lien) => (
