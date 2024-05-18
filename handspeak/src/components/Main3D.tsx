@@ -5,10 +5,8 @@ import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 import { Suspense, useMemo, useRef } from "react";
 import { Group } from "three";
 import {
-	Skeleton,
 	ColorSchemeScript,
 	MantineProvider,
-	createTheme,
 	Center,
 	Loader,
 } from "@mantine/core";
@@ -44,10 +42,10 @@ export default function Main3D({ letter }: any) {
 	}
 
 	return (
-		<Canvas style={{ width: "200px", height: "300px" }}>
+		<Canvas className="object-fill aspect-square" style={{ height: "" }}>
 			<Suspense
 				fallback={
-					<Html style={{ width: "100%", height: "100%" }}>
+					<Html className="w-full h-full">
 						<ColorSchemeScript />
 						<MantineProvider>
 							<Center h="100%" w="100%">

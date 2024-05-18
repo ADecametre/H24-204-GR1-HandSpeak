@@ -16,8 +16,8 @@ import {
 	Text,
 	Button,
 	Container,
-	Group,
 	Stack,
+	Grid,
 	Center,
 } from "@mantine/core";
 
@@ -71,66 +71,79 @@ export default function Demo() {
 
 	return (
 		<Container>
-			<Flex c={"blue"} direction={"column"} ta="center">
-				<Title fw={1000}>Cours A-F</Title>
-				<Text size="xl" fw={1000}>
-					Leçon {lessons[active]}
-				</Text>
-			</Flex>
-			<Group justify="space-between" align="center" wrap="wrap" grow>
-				<Timeline active={active} bulletSize={24} lineWidth={2}>
-					{lessons.map((lesson, index) => (
-						<Timeline.Item
-							key={index}
-							bullet={
-								completedLessons > index ? <IconCheck size={12} /> : undefined
-							}
-							title={
-								<Text size="md" fw={500}>
-									Leçon {lesson}
-								</Text>
-							}
-						/>
-					))}
-				</Timeline>
-				<Flex className="flex-grow" direction="column" align="center">
-					<Main3D letter={lessons[active].toLowerCase()} />
+			<Stack justify="space-evenly" className="min-h-[70dvh]">
+				<Flex c={"blue"} direction={"column"} ta="center">
+					<Title fw={1000}>Cours A-F</Title>
+					<Text size="xl" fw={1000}>
+						Leçon {lessons[active]}
+					</Text>
 				</Flex>
-				<Stack className="items-end">
-					<Box className="relative">
-						<Camera
-							options={options}
-							modelePath={`${process.cwd()}modeles/a-f.task`}
-							setResultat={setResultat}
-							className="min-w-[16dvw] min-h-[12dvw] sm:max-w-[20dvw]"
-						/>
-						{showCheckmark && (
-							<div className="absolute bottom-16 right-1">
-								<Checkmark size="large" color="#228be6" />
-							</div>
-						)}
-						<Text ta="center" size="lg" fw={800}>
-							&nbsp;{resultat?.categoryName}
-							<br />
-							&nbsp;
-							{resultat?.categoryName &&
-								Math.round(resultat.score * 100) + " %"}
-						</Text>
-					</Box>
-				</Stack>
-			</Group>
-			<Flex gap="xl" justify="center" className="w-full px-4 pb-4 pt-4">
-				<Button variant="default" onClick={prevStep}>
-					Retour
-				</Button>
-				<Button
-					onClick={nextStep}
-					disabled={!isButtonActive}
-					className={`${isButtonActive ? "animate-polse" : ""} `}
-				>
-					Prochaine leçon
-				</Button>
-			</Flex>
+				<Grid justify="space-between" align="center" className="flex-nowrap">
+					<Grid.Col span={{ base: 6, sm: 3 }} className=" content-center">
+						<Timeline active={active} bulletSize={20} lineWidth={2}>
+							{lessons.map((lesson, index) => (
+								<Timeline.Item
+									key={index}
+									bullet={
+										completedLessons > index ? (
+											<IconCheck size={12} />
+										) : undefined
+									}
+									title={
+										<Text size="sm" fw={500}>
+											Leçon {lesson}
+										</Text>
+									}
+								/>
+							))}
+						</Timeline>
+					</Grid.Col>
+					<Grid.Col
+						span={{ base: 6, sm: 4 }}
+						className="max-h-[30dvh] md:min-h-[50dvh] content-center"
+					>
+						<Main3D letter={lessons[active].toLowerCase()} />
+					</Grid.Col>
+					<Grid.Col span={{ base: 12, sm: 3 }}>
+						<Center>
+							<Box className="relative">
+								<Camera
+									options={options}
+									modelePath={`${process.cwd()}modeles/a-f.task`}
+									setResultat={setResultat}
+									className="w-auto max-h-[20dvh] md:max-h-[50dvh]"
+								/>
+								{showCheckmark && (
+									<div className="absolute bottom-1 right-1">
+										<Checkmark size="large" color="#228be6" />
+									</div>
+								)}
+								<Text
+									ta="center"
+									size="lg"
+									className="absolute bottom-1 left-2 text-white drop-shadow-md"
+									fw={800}
+								>
+									{resultat?.categoryName &&
+										Math.round(resultat.score * 100) + " %"}
+								</Text>
+							</Box>
+						</Center>
+					</Grid.Col>
+				</Grid>
+				<Flex gap="xl" justify="center">
+					<Button variant="default" onClick={prevStep}>
+						Retour
+					</Button>
+					<Button
+						onClick={nextStep}
+						disabled={!isButtonActive}
+						className={`${isButtonActive ? "animate-polse" : ""} `}
+					>
+						Prochaine leçon
+					</Button>
+				</Flex>
+			</Stack>
 		</Container>
 	);
 }

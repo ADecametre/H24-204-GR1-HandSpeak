@@ -133,11 +133,11 @@ export default function Camera({
 				drawingUtils.drawConnectors(
 					landmarks,
 					GestureRecognizer.HAND_CONNECTIONS,
-					{ color: "#00FF00", lineWidth: 5 }
+					{ color: "#00FF00", lineWidth: 2 }
 				);
 				drawingUtils.drawLandmarks(landmarks, {
 					color: "#FF0000",
-					lineWidth: 2,
+					lineWidth: 1,
 				});
 			}
 		}
@@ -146,17 +146,20 @@ export default function Camera({
 
 	// Interface
 	return (
-		<div className={`flex flex-col relative items-stretch ${className}`}>
+		<div
+			className="relative" /* className={`flex flex-col relative items-stretch ${className}`} */
+		>
 			{/* Webcam */}
 			<Webcam
 				ref={webcamRef}
-				className="object-fill w-full h-full"
+				className={className}
+				// className="object-fill w-full h-full"
 				videoConstraints={{ facingMode: "user" }}
 				onLoadedDataCapture={() => setIsCameraPrete(true)}
 			/>
 			{/* Animation de chargement */}
 			<Stack
-				className={`items-center justify-center absolute w-full h-full text-center bg-blue-950/75 transition-opacity duration-500 ${
+				className={`items-center justify-center absolute top-0 left-0 w-full h-full text-center bg-blue-950/75 transition-opacity duration-500 ${
 					isCameraPrete && isModelePret && "opacity-0"
 				}`}
 			>
@@ -183,7 +186,10 @@ export default function Camera({
 			{/* Canvas pour le traçage des mains */}
 			<canvas
 				ref={canvasRef}
-				className={`absolute object-fill w-full h-full`}
+				width={0}
+				height={0}
+				className="absolute w-full h-full top-0 left-0"
+				// className={`absolute top-0 left-0 object-fill w-full h-full`}
 			/>
 		</div>
 	);
