@@ -18,6 +18,7 @@ export default function Home() {
 			titre: "Lettres A-F",
 			description: "Lettres A à F - Leçons et Quiz",
 			categorie: "Alphabet",
+			link: "/cours/lettres-a-f",
 		},
 		{
 			image:
@@ -26,6 +27,7 @@ export default function Home() {
 			categorie: "Alphabet",
 			description: "Lettres G à L - Leçons et Quiz",
 			altImage: "ImageCarte",
+			link: "/cours/lettres-g-l",
 		},
 		{
 			image:
@@ -34,6 +36,7 @@ export default function Home() {
 			titre: "Lettres M-T",
 			description: "Lettres M à T - Leçons et Quiz",
 			categorie: "Alphabet",
+			link: "/cours/lettres-m-t",
 		},
 		{
 			image:
@@ -42,6 +45,7 @@ export default function Home() {
 			titre: "Lettres U-Z",
 			description: "Lettres U à Z - Leçons et Quiz",
 			categorie: "Alphabet",
+			link: "/cours/lettres-u-z",
 		},
 	];
 	const donneesNumeros = [
@@ -52,6 +56,7 @@ export default function Home() {
 			titre: "Chiffres 0-3",
 			description: "Chiffres allant de 0 à 3 - Leçons et Quiz",
 			categorie: "Chiffres",
+			link: "/cours/chiffres-0-3",
 		},
 		{
 			image:
@@ -60,6 +65,7 @@ export default function Home() {
 			categorie: "Chiffres",
 			description: "Chiffres allant de 4 à 6 - Leçons et Quiz",
 			altImage: "ImageCarte",
+			link: "/cours/chiffres-4-6",
 		},
 		{
 			image:
@@ -68,6 +74,7 @@ export default function Home() {
 			titre: "Chiffres 7-9",
 			description: "Chiffres allant de 7 à 9 - Leçons et Quiz",
 			categorie: "Chiffres",
+			link: "/cours/chiffres-7-9",
 		},
 	];
 	//defini le contenu de chaque slide en utilisant les donnees des cartes (voir le data dans la composante CarteCours)
