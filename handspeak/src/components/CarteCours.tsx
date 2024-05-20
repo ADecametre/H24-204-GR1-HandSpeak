@@ -8,7 +8,7 @@ import {
 	CardSection,
 	Title,
 } from "@mantine/core";
-
+import Link from "next/link";
 
 //Déclaration des attributs des cartes
 interface CardProps {
@@ -17,6 +17,7 @@ interface CardProps {
 	titre: string;
 	categorie: string;
 	description: string;
+	link: string;
 }
 //exportation de la composante carte qui prend en parametres les donnees en haut
 export default function CarteCours({
@@ -25,6 +26,7 @@ export default function CarteCours({
 	categorie,
 	altImage,
 	description,
+	link,
 }: CardProps) {
 	return (
 		<Card shadow="sm" padding="lg" radius="md" withBorder mr={"md"}>
@@ -43,7 +45,7 @@ export default function CarteCours({
 				</Text>
 			</CardSection>
 			<CardSection p={"xs"}>
-				<Button color="blue" fullWidth radius="md">
+				<Button component={Link} href={link} color="blue" fullWidth radius="md">
 					Accéder au cours
 				</Button>
 			</CardSection>
