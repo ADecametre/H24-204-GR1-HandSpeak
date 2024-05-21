@@ -13,6 +13,7 @@ const prismaClientSingleton = () => {
 			model: {
 				users: {
 					async getUtilisateur() {
+						//"use sserver";
 						// Obtenir l'utilisateur connecté avec Clerk
 						const clerkUser = await currentUser();
 						if (!clerkUser) redirect("/sign-in");
@@ -43,6 +44,7 @@ const prismaClientSingleton = () => {
 							| updateUtilisateurType
 							| ((userId: string) => updateUtilisateurType)
 					) {
+						//"use server";
 						const user = await this.getUtilisateur();
 						const context = Prisma.getExtensionContext(this);
 
@@ -74,6 +76,7 @@ const prismaClientSingleton = () => {
 					async setProgressionUtilisateur(
 						data: Omit<Prisma.progressionsUncheckedCreateWithoutUserInput, "id">
 					) {
+						//"use server";
 						return this.updateUtilisateur((userId) => ({
 							data: {
 								progressions: {
@@ -133,9 +136,9 @@ const prismaClientSingleton = () => {
 					 * ```
 					 */
 					async getListeCours() {
+						//"use server";
 						const context = Prisma.getExtensionContext(this);
 						const user = await context.$parent.users.getUtilisateur();
-
 						return context.findMany({
 							include: {
 								courses: {

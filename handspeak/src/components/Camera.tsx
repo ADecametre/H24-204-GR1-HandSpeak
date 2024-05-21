@@ -1,6 +1,6 @@
 "use client";
 
-import { Loader } from "@mantine/core";
+import { Loader, Text, Stack } from "@mantine/core";
 import {
 	Category,
 	DrawingUtils,
@@ -133,11 +133,11 @@ export default function Camera({
 				drawingUtils.drawConnectors(
 					landmarks,
 					GestureRecognizer.HAND_CONNECTIONS,
-					{ color: "#00FF00", lineWidth: 5 }
+					{ color: "#00FF00", lineWidth: 2 }
 				);
 				drawingUtils.drawLandmarks(landmarks, {
 					color: "#FF0000",
-					lineWidth: 2,
+					lineWidth: 1,
 				});
 			}
 		}
@@ -146,40 +146,50 @@ export default function Camera({
 
 	// Interface
 	return (
-		<div className={`flex flex-col relative items-stretch ${className}`}>
+		<div
+			className="relative" /* className={`flex flex-col relative items-stretch ${className}`} */
+		>
 			{/* Webcam */}
 			<Webcam
 				ref={webcamRef}
-				className="object-fill w-full h-full"
+				className={className}
+				// className="object-fill w-full h-full"
 				videoConstraints={{ facingMode: "user" }}
 				onLoadedDataCapture={() => setIsCameraPrete(true)}
 			/>
 			{/* Animation de chargement */}
-			<div
-				className={`flex flex-col items-center justify-center absolute w-full h-full text-center bg-blue-950/75 transition-opacity duration-500 ${
+			<Stack
+				className={`items-center justify-center absolute top-0 left-0 w-full h-full text-center bg-blue-950/75 transition-opacity duration-500 ${
 					isCameraPrete && isModelePret && "opacity-0"
 				}`}
 			>
 				<Loader color="blue" size="xl" type="dots" />
-				<p
-					className={`text-3xl transition-opacity duration-300 ${
+				<Text
+					color="blue"
+					fw={700}
+					className={`transition-opacity duration-300 ${
 						isCameraPrete && "opacity-0"
 					}`}
 				>
 					Chargement de la caméra…
-				</p>
-				<p
-					className={`text-3xl transition-opacity duration-300 ${
+				</Text>
+				<Text
+					color="blue"
+					fw={700}
+					className={`transition-opacity duration-300 ${
 						isModelePret && "opacity-0"
 					}`}
 				>
 					Chargement du modèle…
-				</p>
-			</div>
+				</Text>
+			</Stack>
 			{/* Canvas pour le traçage des mains */}
 			<canvas
 				ref={canvasRef}
-				className={`absolute object-fill w-full h-full`}
+				width={0}
+				height={0}
+				className="absolute w-full h-full top-0 left-0"
+				// className={`absolute top-0 left-0 object-fill w-full h-full`}
 			/>
 		</div>
 	);
