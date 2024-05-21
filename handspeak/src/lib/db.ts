@@ -100,7 +100,7 @@ const prismaClientSingleton = () => {
 					/**
 					 * @returns Liste des catégories de cours, qui contiennent chacune une liste de cours, qui contiennent chacun la progression de l'utilisateur connecté
 					 * @example
-					 * ```ts
+					 * ```tsx
 					 * 	export default async function Cours() {
 					 *		const categories =
 					 *			await db.categories.getListeCours();
