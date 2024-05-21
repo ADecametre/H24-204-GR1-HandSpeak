@@ -24,11 +24,11 @@ import {
 
 type Props = {
 	lessons: string[];
-	model: string | undefined;
-	courseName: string | undefined;
+	model: string;
+	courseName: string;
 	courseUrl: string;
 	lessonsDone: number;
-	coursID: string | undefined;
+	coursID: string;
 };
 
 export default function Demo({

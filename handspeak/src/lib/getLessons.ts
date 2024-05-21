@@ -1,7 +1,19 @@
 import db from "@/lib/db";
 import prisma from "@/lib/db";
 
-export async function setProgressionUtilisateur(
+/* export function setProgressionUtilisateur(
+	coursID: string,
+	lessonsDone: number,
+	grade: number
+) {
+	db.users.setProgressionUtilisateur({
+		courseId: coursID,
+		grade: grade,
+		lessonsDone: lessonsDone,
+	});
+} */
+
+/* export async function setProgressionUtilisateur(
 	courseUrl: string,
 	lessonsDone: number,
 	grade: number
@@ -12,8 +24,8 @@ export async function setProgressionUtilisateur(
 		grade: grade,
 		lessonsDone: lessonsDone,
 	});
-}
-export const getLessons = async (courseUrl: string) => {
+} */
+/* export const getLessons = async (courseUrl: string) => {
 	const cours = await prisma.courses.getCoursParURL(courseUrl);
 	return cours ? cours.lessons.map((lesson) => lesson.label) : [];
 };
@@ -32,4 +44,4 @@ export const getLessonsDone = async (courseUrl: string) => {
 export const getCoursID = async (courseUrl: string) => {
 	const cours = await prisma.courses.getCoursParURL(courseUrl);
 	return cours?.id;
-};
+}; */

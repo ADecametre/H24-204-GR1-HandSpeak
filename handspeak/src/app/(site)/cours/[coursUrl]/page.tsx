@@ -1,23 +1,19 @@
-// src/app/(site)/cours/[coursUrl]/page.tsx
-import {
-	getCoursID,
-	getLessons,
-	getLessonsDone,
-	getModel,
-	getName,
-} from "@/lib/getLessons";
+import db from "@/lib/db";
 import Apprentissage from "@/components/Apprentissage";
+import { redirect } from "next/navigation";
 
 export default async function Page({
 	params,
 }: {
 	params: { coursUrl: string };
 }) {
-	const lessons = await getLessons(params.coursUrl);
-	const model = await getModel(params.coursUrl);
-	const courseName = await getName(params.coursUrl);
-	const lessonsDone = await getLessonsDone(params.coursUrl);
-	const courseID = await getCoursID(params.coursUrl);
+	const course = await db.courses.getCoursParURL(params.coursUrl);
+	if (!course) redirect("/cours");
+	const lessons = course.lessons.map((lesson) => lesson.label);
+	const model = course.model;
+	const courseName = course.name;
+	const lessonsDone = course.progressions[0]?.lessonsDone || 0;
+	const courseID = course.id;
 
 	return (
 		<Apprentissage
