@@ -49,6 +49,7 @@ model courses {
   category     categories     @relation(fields: [categoryId], references: [id])
   lessons      Lessons[] // Liste des signes à apprendre avec tous les détails nécessaires (ex.: [ {name:"A", label:"A", image:"https://yes", instructions:"Ouvrez la main"}, ])
   progressions progressions[]
+  img          String
 
   @@index([order])
 }
