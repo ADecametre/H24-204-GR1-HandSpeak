@@ -11,9 +11,9 @@ import {
 	Loader,
 } from "@mantine/core";
 
-const Scene = ({ letter }: { letter: string }) => {
+const Scene = ({ path }: { path: string }) => {
 	const handRef = useRef<Group | null>(null!);
-	const stl: any = useLoader(GLTFLoader, `/mains/${letter}.gltf`);
+	const stl: any = useLoader(GLTFLoader, path);
 	const copiedScene = useMemo(() => stl.scene.clone(), [stl]);
 
 	useFrame(() => {
@@ -33,8 +33,10 @@ const Scene = ({ letter }: { letter: string }) => {
 	);
 };
 
-export default function Main3D({ letter }: any) {
+export default function Main3D({ path }: { path: string | null }) {
 	const cameraRef = useRef<CameraControls | null>(null!);
+
+	if (!path) return <></>;
 
 	function initLocAndRot() {
 		if (!cameraRef.current) return;
@@ -55,7 +57,7 @@ export default function Main3D({ letter }: any) {
 					</Html>
 				}
 			>
-				<Scene letter={letter} />
+				<Scene path={path} />
 				<CameraControls
 					ref={(ref) => {
 						cameraRef.current = ref;
