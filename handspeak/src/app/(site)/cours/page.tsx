@@ -3,91 +3,12 @@ import { Box, Title, Text, Group } from "@mantine/core";
 import { Carousel, CarouselSlide } from "@mantine/carousel";
 import "@mantine/carousel/styles.css";
 import CarteCours from "@/components/CarteCours";
-import AnimationTitre from "@/components/AnimationTitre";
 import { IconBooks } from "@tabler/icons-react";
-import { IconAbc } from "@tabler/icons-react";
-import { IconNumber123 } from "@tabler/icons-react";
 
-export default function Home() {
-	//données concernant les attributs de chaque carte qui présente un cours
-	const donneesAlphabet = [
-		{
-			image:
-				"https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/images/bg-1.png",
-			altImage: "ImageCarte",
-			titre: "Lettres A-F",
-			description: "Lettres A à F - Leçons et Quiz",
-			categorie: "Alphabet",
-			link: "/cours/lettres-a-f",
-		},
-		{
-			image:
-				"https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/images/bg-2.png",
-			titre: "Lettres G-L",
-			categorie: "Alphabet",
-			description: "Lettres G à L - Leçons et Quiz",
-			altImage: "ImageCarte",
-			link: "/cours/lettres-g-l",
-		},
-		{
-			image:
-				"https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/images/bg-3.png",
-			altImage: "ImageCarte",
-			titre: "Lettres M-T",
-			description: "Lettres M à T - Leçons et Quiz",
-			categorie: "Alphabet",
-			link: "/cours/lettres-m-t",
-		},
-		{
-			image:
-				"https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/images/bg-4.png",
-			altImage: "ImageCarte",
-			titre: "Lettres U-Z",
-			description: "Lettres U à Z - Leçons et Quiz",
-			categorie: "Alphabet",
-			link: "/cours/lettres-u-z",
-		},
-	];
-	const donneesNumeros = [
-		{
-			image:
-				"https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/images/bg-9.png",
-			altImage: "ImageCarte",
-			titre: "Chiffres 0-3",
-			description: "Chiffres allant de 0 à 3 - Leçons et Quiz",
-			categorie: "Chiffres",
-			link: "/cours/chiffres-0-3",
-		},
-		{
-			image:
-				"https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/images/bg-10.png",
-			titre: "Chiffres 4-6",
-			categorie: "Chiffres",
-			description: "Chiffres allant de 4 à 6 - Leçons et Quiz",
-			altImage: "ImageCarte",
-			link: "/cours/chiffres-4-6",
-		},
-		{
-			image:
-				"https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/images/bg-8.png",
-			altImage: "ImageCarte",
-			titre: "Chiffres 7-9",
-			description: "Chiffres allant de 7 à 9 - Leçons et Quiz",
-			categorie: "Chiffres",
-			link: "/cours/chiffres-7-9",
-		},
-	];
-	//defini le contenu de chaque slide en utilisant les donnees des cartes (voir le data dans la composante CarteCours)
-	const cartesAlphabet = donneesAlphabet.map((item) => (
-		<CarouselSlide key={item.titre}>
-			<CarteCours {...item} />
-		</CarouselSlide>
-	));
-	const cartesNumeros = donneesNumeros.map((item) => (
-		<CarouselSlide key={item.titre}>
-			<CarteCours {...item} />
-		</CarouselSlide>
-	));
+import db from "@/lib/db";
+
+export default async function Home() {
+	const categories = await db.categories.getListeCours();
 
 	return (
 		<Box className="bg-gray-100">
@@ -105,33 +26,28 @@ export default function Home() {
 			<Text pt={"md"} pl={"lg"} size="lg" fw={"bold"}>
 				Donnez la parole à vos mains dès aujourd&apos;hui!
 			</Text>
-			<Group pl={"lg"} pt={"md"} gap="xs">
-				<IconAbc size="50px" color="#338DFF" />
-				<Title order={2}>DÉCOUVREZ L&apos;ALPHABET</Title>
-			</Group>
+			{categories.map((category) => (
+				<section key={category.id}>
+					<Group pl={"lg"} pt={"md"} gap="xs">
+						<i className={`text-5xl text-blue-600 ${category.icon || ""}`} />
+						<Title order={2}>{category.name}</Title>
+					</Group>
 
-			<Carousel
-				slideSize={{ base: "90%", sm: "24%" }}
-				slideGap={{ base: "xl", sm: 2 }}
-				align="start"
-				p={"lg"}
-				withControls={false}
-			>
-				{cartesAlphabet}
-			</Carousel>
-			<Group pl={"lg"} pt={"md"} gap="xs">
-				<IconNumber123 size="50px" color="#338DFF" />
-				<Title order={2}>APPRENEZ LES CHIFFRES</Title>
-			</Group>
-			<Carousel
-				slideSize={{ base: "90%", sm: "24%" }}
-				slideGap={{ base: "xl", sm: 2 }}
-				align="start"
-				p={"lg"}
-				withControls={false}
-			>
-				{cartesNumeros}
-			</Carousel>
+					<Carousel
+						slideSize={{ base: "90%", sm: "24%" }}
+						slideGap={{ base: "xl", sm: 2 }}
+						align="start"
+						p={"lg"}
+						withControls={false}
+					>
+						{category.courses.map((course) => (
+							<CarouselSlide key={course.id}>
+								<CarteCours course={course} />
+							</CarouselSlide>
+						))}
+					</Carousel>
+				</section>
+			))}
 		</Box>
 	);
 }

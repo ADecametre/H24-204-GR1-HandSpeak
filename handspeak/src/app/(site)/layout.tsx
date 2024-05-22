@@ -17,6 +17,10 @@ export default function RootLayout({
 		<html lang="en">
 			<head>
 				<ColorSchemeScript />
+				<link
+					rel="stylesheet"
+					href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css"
+				/>
 			</head>
 			<body>
 				<MantineProvider theme={createTheme({})}>
