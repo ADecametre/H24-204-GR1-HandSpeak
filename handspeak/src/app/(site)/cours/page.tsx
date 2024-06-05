@@ -3,7 +3,6 @@ import { Box, Title, Text, Group } from "@mantine/core";
 import { Carousel, CarouselSlide } from "@mantine/carousel";
 import "@mantine/carousel/styles.css";
 import CarteCours from "@/components/CarteCours";
-import AnimationTitre from "@/components/AnimationTitre";
 import { IconBooks } from "@tabler/icons-react";
 import { IconAbc } from "@tabler/icons-react";
 import { IconNumber123 } from "@tabler/icons-react";
@@ -48,49 +47,16 @@ export default function Home() {
 			link: "/cours/lettres-u-z",
 		},
 	];
-	const donneesNumeros = [
-		{
-			image:
-				"https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/images/bg-9.png",
-			altImage: "ImageCarte",
-			titre: "Chiffres 0-3",
-			description: "Chiffres allant de 0 à 3 - Leçons et Quiz",
-			categorie: "Chiffres",
-			link: "/cours/chiffres-0-3",
-		},
-		{
-			image:
-				"https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/images/bg-10.png",
-			titre: "Chiffres 4-6",
-			categorie: "Chiffres",
-			description: "Chiffres allant de 4 à 6 - Leçons et Quiz",
-			altImage: "ImageCarte",
-			link: "/cours/chiffres-4-6",
-		},
-		{
-			image:
-				"https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/images/bg-8.png",
-			altImage: "ImageCarte",
-			titre: "Chiffres 7-9",
-			description: "Chiffres allant de 7 à 9 - Leçons et Quiz",
-			categorie: "Chiffres",
-			link: "/cours/chiffres-7-9",
-		},
-	];
+
 	//defini le contenu de chaque slide en utilisant les donnees des cartes (voir le data dans la composante CarteCours)
 	const cartesAlphabet = donneesAlphabet.map((item) => (
 		<CarouselSlide key={item.titre}>
 			<CarteCours {...item} />
 		</CarouselSlide>
 	));
-	const cartesNumeros = donneesNumeros.map((item) => (
-		<CarouselSlide key={item.titre}>
-			<CarteCours {...item} />
-		</CarouselSlide>
-	));
 
 	return (
-		<Box className="bg-gray-100">
+		<Box className="bg-gray-100" mih="calc(100dvh - 75px)">
 			<Group gap={"xs"} ml={"md"} mr={"md"} pt={"md"}>
 				<Title>SELECTION DES COURS</Title>
 				<Box visibleFrom="sm">
@@ -118,19 +84,6 @@ export default function Home() {
 				withControls={false}
 			>
 				{cartesAlphabet}
-			</Carousel>
-			<Group pl={"lg"} pt={"md"} gap="xs">
-				<IconNumber123 size="50px" color="#338DFF" />
-				<Title order={2}>APPRENEZ LES CHIFFRES</Title>
-			</Group>
-			<Carousel
-				slideSize={{ base: "90%", sm: "24%" }}
-				slideGap={{ base: "xl", sm: 2 }}
-				align="start"
-				p={"lg"}
-				withControls={false}
-			>
-				{cartesNumeros}
 			</Carousel>
 		</Box>
 	);
