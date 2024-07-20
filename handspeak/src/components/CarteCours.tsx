@@ -7,6 +7,7 @@ import {
 	CardSection,
 	Title,
 	rem,
+	Text,
 } from "@mantine/core";
 import Link from "next/link";
 import NextImage from "next/image";
@@ -51,6 +52,9 @@ export default function CarteCours({
 				<Badge rightSection={icon} mt={"xs"}>
 					{gradeValue}%
 				</Badge>
+				<Text size="sm" c="dimmed" mt="xs">
+					{course.description}
+				</Text>
 			</CardSection>
 			<CardSection p={"xs"}>
 				<Button
