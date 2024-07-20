@@ -152,7 +152,7 @@ export default function Apprentissage({ course, setProgression }: Props) {
 
 	// SAUVEGARDE MONGODB
 	useEffect(() => {
-		const grade = quizActive / (quizLessons.length - 1),
+		const grade = quizActive / quizLessons.length,
 			lessonsDone = completedLessons;
 
 		if (
