@@ -9,20 +9,21 @@ export default async function Page({
 }) {
 	const course = await db.courses.getCoursParURL(params.coursUrl);
 	if (!course) redirect("/cours");
-	const lessons = course.lessons.map((lesson) => lesson.label);
-	const model = course.model;
-	const courseName = course.name;
-	const lessonsDone = course.progressions[0]?.lessonsDone || 0;
-	const courseID = course.id;
+	const setProgression = async (
+		data: Omit<
+			Parameters<typeof db.users.setProgressionUtilisateur>[0],
+			"courseId"
+		>
+	) => {
+		"use server";
+		const grade = data.grade,
+			lessonsDone = data.lessonsDone;
+		return await db.users.setProgressionUtilisateur({
+			courseId: course.id,
+			grade,
+			lessonsDone,
+		});
+	};
 
-	return (
-		<Apprentissage
-			lessons={lessons}
-			model={model}
-			courseName={courseName}
-			courseUrl={params.coursUrl}
-			lessonsDone={lessonsDone}
-			coursID={courseID}
-		/>
-	);
+	return <Apprentissage course={course} setProgression={setProgression} />;
 }

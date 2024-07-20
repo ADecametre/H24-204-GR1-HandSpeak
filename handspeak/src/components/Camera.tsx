@@ -1,5 +1,3 @@
-"use client";
-
 import { Loader, Text, Stack } from "@mantine/core";
 import {
 	Category,
